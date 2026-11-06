@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Список задач — практика 5</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body><main class="shell">
+  <header class="topbar"><a class="brand" href="{{ url_for('index') }}"><span class="brand-mark">Z</span> PROJECTZLATA</a><span class="local-badge">Практика 05</span></header>
+  <section class="intro"><p class="eyebrow">Форма · POST · SQLite</p><h1>Запиши следующую <span>задачу.</span></h1><p class="lead">После сохранения сервер перенаправит браузер на список — обновление страницы не создаст дубль.</p></section>
+  <section class="workspace"><div class="section-head"><div><p class="eyebrow">Мой список</p><h2>Задачи <span class="count">{{ items|length }}</span></h2></div></div>
+  {% with messages = get_flashed_messages(with_categories=true) %}{% if messages %}<div class="notices" aria-live="polite">{% for category, message in messages %}<p class="notice notice-{{ category }}">{{ message }}</p>{% endfor %}</div>{% endif %}{% endwith %}
+  <form class="add-form" method="post" action="{{ url_for('index') }}"><label class="sr-only" for="title">Название задачи</label><input id="title" name="title" maxlength="160" placeholder="Новая задача…" required><button class="button button-primary" type="submit">＋ Добавить</button></form>
+  {% if items %}<ul class="task-list">{% for item in items %}<li class="task-row {% if item.status == 'done' %}is-done{% endif %}"><span class="check-button" aria-hidden="true">{% if item.status == 'done' %}✓{% endif %}</span><div class="task-copy"><span class="task-title">{{ item.title }}</span><span class="task-meta">#{{ item.id }} · {{ 'Выполнена' if item.status == 'done' else 'В работе' }}</span></div></li>{% endfor %}</ul>{% else %}<div class="empty-state"><h3>Список пуст</h3><p>Добавь задачу в поле выше.</p></div>{% endif %}
+  </section></main></body></html>

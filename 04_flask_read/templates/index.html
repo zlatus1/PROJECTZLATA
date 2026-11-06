@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Список задач — практика 4</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body><main class="shell">
+  <header class="topbar"><a class="brand" href="{{ url_for('index') }}"><span class="brand-mark">Z</span> PROJECTZLATA</a><span class="local-badge">Практика 04</span></header>
+  <section class="intro"><p class="eyebrow">Flask · SQLite · Jinja2</p><h1>Мой список <span>задач.</span></h1><p class="lead">Данные прочитаны из базы и переданы в HTML-шаблон.</p></section>
+  <section class="workspace"><div class="section-head"><div><p class="eyebrow">Содержимое app.db</p><h2>Задачи <span class="count">{{ items|length }}</span></h2></div></div>
+  {% if items %}<ul class="task-list">{% for item in items %}<li class="task-row {% if item.status == 'done' %}is-done{% endif %}"><span class="check-button" aria-hidden="true">{% if item.status == 'done' %}✓{% endif %}</span><div class="task-copy"><span class="task-title">{{ item.title }}</span><span class="task-meta">#{{ item.id }} · {{ 'Выполнена' if item.status == 'done' else 'Новая' }}</span></div></li>{% endfor %}</ul>
+  {% else %}<div class="empty-state"><span class="empty-icon">✓</span><h3>Список пуст</h3><p>Добавь задачи через crud_console.py и обнови страницу.</p></div>{% endif %}
+  </section><footer class="footer"><span>PROJECTZLATA</span><a href="{{ url_for('about') }}">О проекте</a></footer>
+</main></body></html>
